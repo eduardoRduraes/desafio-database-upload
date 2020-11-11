@@ -1,4 +1,4 @@
-import { EntityRepository, getCustomRepository, Repository } from 'typeorm';
+import { EntityRepository, Repository } from 'typeorm';
 
 import Transaction from '../models/Transaction';
 
@@ -48,16 +48,6 @@ class TransactionsRepository extends Repository<Transaction> {
     );
     const total = income - outcome;
     return { income, outcome, total };
-  }
-
-  public async getTransactions(): Promise<CreateTransaction[]> {
-    const transactionsRepository = getCustomRepository(TransactionsRepository);
-
-    const transactions = transactionsRepository.find({
-      select: ['id', 'title', 'value', 'type'],
-      relations: ['category'],
-    });
-    return transactions;
   }
 }
 

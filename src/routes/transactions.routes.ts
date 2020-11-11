@@ -42,26 +42,19 @@ transactionsRouter.delete('/:id', async (request, response) => {
 
   await deleteTransactionService.execute({ id });
 
-  return response.json({ delete: 'ok' });
+  return response.status(200).send({ delete: 'ok' });
 });
 
-// transactionsRouter.post(
-// '/import',
-//   upload.single('file'),
-//   async (request, response) => {
-//     const importTransaction = new ImportTransactionsService();
-//     const transaction = await importTransaction.execute(request.file.path);
-//     const createTransaction = new CreateTransactionService();
-//     for (const transaction of transactions) {
-//       await createTransaction.execute({
-//         title: transaction.title,
-//         type: transaction.type,
-//         value: transaction.value,
-//         category: transaction.category,
-//       });
-//     }
-//     return response.json(transaction);
-//   },
-// );
+transactionsRouter.post(
+  '/import',
+  upload.single('file'),
+  async (request, response) => {
+    const importTranscations = new ImportTransactionsService();
+
+    const transactions = await importTranscations.execute(request.file.path);
+
+    return response.json(transactions);
+  },
+);
 
 export default transactionsRouter;
